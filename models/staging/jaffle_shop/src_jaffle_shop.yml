@@ -2,11 +2,20 @@ version: 2
 
 sources:
   - name: jaffle_shop
+    description: clone of a Postgress application database
     database: dbt-tutorial
     schema: jaffle_shop
     tables:
       - name: customers
+        description: raw data for customers
+        columns: 
+          - name: id
+            description: customer id must be unique and not null
+            tests: 
+              - unique
+              - not_null
       - name: orders
+        description: raw dara for orders
         loaded_at_field: _etl_loaded_at
         freshness:
           warn_after: {count: 12, period: hour}
