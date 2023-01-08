@@ -1,0 +1,40 @@
+version: 2
+
+models: 
+  - name: dim_customer
+    columns:
+      - name: customer_id
+        description: primery key
+        tests:
+          - unique
+          - not_null
+
+  - name: fct_orders
+    columns: 
+      - name: order_id
+        description: primary key
+        tests:
+          - unique
+          - not_null
+      - name: customer_id
+        tests: 
+          - relationships:
+              to: ref('stg_customers')
+              field: customer_id
+
+  - name: orders_payment_status_amount
+    columns:
+      - name: order_id
+        description: primary key
+        tests:
+          - unique
+          - not_null
+      - name: success_amount
+        description: total amount of money for each order's successful payment
+        tests:
+          - test_generic_assert_positive_value
+      - name: fail_amount
+        description: total amount of money for each order's failed payment
+        tests: 
+        - test_generic_assert_positive_value
+  
